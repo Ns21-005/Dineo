@@ -7,18 +7,19 @@ using System.Runtime.Remoting.Services;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Feature1.Assignment;
 using static Feature_1_assignment.CustomerInput;
 
 namespace Feature_1_assignment
-{
-    internal class CustomerInput//customer input details
+{    
+    internal class CustomerInput : Login//customer input details
     {
         public string firstname { get; set; }
-         public string surname { get; set; }
-            public string location { get; set; }
+        public string surname { get; set; }
+        public string location { get; set; }
         public int plotno { get; set; }
         public string usertype { get; set; }
-        public double AmountOfWaterUsed { get; set; }
+        public double AmountOfWaterUsed { get; set; }//property
         public double TotalWaterCost;
         /* Declaration of instance variables */
 
@@ -41,17 +42,17 @@ namespace Feature_1_assignment
                 double VATexclude = 3.60 * 5;
                 double wastewater;
                 double TotalWaterCost;
-                if (AmountOfWaterUsed <= 5 ) 
+                if (AmountOfWaterUsed <= 5)
                 {
-                    
-                    costofwater = (3.60 * AmountOfWaterUsed);
-                    Console.WriteLine("Potable Water Cost : " + costofwater);
-                   
-                    wastewater = (0.65 * AmountOfWaterUsed);
-                    Console.WriteLine("Waste Water Cost : " + wastewater);
-                    
+
+                    costofwater = (3.60 * AmountOfWaterUsed);//calculates potable water cost
+                    Console.WriteLine("Potable Water Cost : " + costofwater);//presents potable  water cost from console screen
+
+                    wastewater = (0.65 * AmountOfWaterUsed);//calculates waste water cost
+                    Console.WriteLine("Waste Water Cost : " + wastewater);//presents waste water cost from console screen
+
                     TotalWaterCost = costofwater + wastewater;
-                    return TotalWaterCost;
+                    return TotalWaterCost;// returns The total water cost for amount of water used
                 }
 
                 else if (5 < AmountOfWaterUsed && 15 > AmountOfWaterUsed)
@@ -101,12 +102,12 @@ namespace Feature_1_assignment
 
                     TotalWaterCost = costofwater + wastewater;
                     return TotalWaterCost;
-                    
+
                 }
 
                 {
                     DomesticCalculation domesticCalculation = new DomesticCalculation();// object creation
-                    
+
                     return TotalWaterCost;//method invoked
                 }
             }
@@ -120,22 +121,21 @@ namespace Feature_1_assignment
                 {
                     double CostOfWater;
                     double wastewater;
-                    double TotalWaterCost;
+                    double TotalWaterCost;//variable declaration
 
 
                     if (AmountOfWaterUsed <= 5)
-
                     {
                         CostOfWater = (4.92 * AmountOfWaterUsed);
                         Console.WriteLine("Potable Water Cost : " + CostOfWater);
 
                         wastewater = (0.65 * AmountOfWaterUsed);
-                       Console.WriteLine("Waste Water Cost : " + wastewater);
+                        Console.WriteLine("Waste Water Cost : " + wastewater);
 
                         TotalWaterCost = CostOfWater + wastewater;
                         return TotalWaterCost;
-
                     }
+                 
 
                     else if (AmountOfWaterUsed > 5 && AmountOfWaterUsed <= 15)
 
@@ -192,230 +192,152 @@ namespace Feature_1_assignment
 
                     {
                         COMMERCIALCALCULATION cOMMERCIALCALCULATION = new COMMERCIALCALCULATION();// object creation
-                       
+
                         return TotalWaterCost;//method invoked
-                }   }
+                    }
+                }
 
-                    internal class CustomerInfo//tests the former classes(CustomerInput,Domestic Calculation,Commecial Calculation.
+                internal class CustomerInfo//tests the former classes(CustomerInput,Domestic Calculation,Commecial Calculation.
+                {
+                    public static void Main()     
                     {
-                        public static void Main()
-                        {
-                           StreamWriter outputFile;
-                           StreamWriter recordFile;
-                           outputFile = new StreamWriter("CustomerInfo.doc");
-                           recordFile = File.AppendText("Report.doc");
-
-                           CustomerInput Customer= new CustomerInput("Dee", "Nomsa", "Mosopa", 5431, "Domestic", 44.0);
-                           Console.WriteLine("******************************************************************************");
-                           Console.WriteLine("Enter Firstname and Surname");
-                           Customer.firstname = Console.ReadLine();
-                           Customer.surname = Console.ReadLine();
-                           outputFile.WriteLine("Fullname :" + Customer.firstname + Customer.surname);
-
-                           Console.WriteLine("Enter location");
-                           Customer.location = Console.ReadLine();
-                           outputFile.WriteLine("Location :" + Customer.location);
-
-                          Console.WriteLine("Enter Plotno");
-                          Customer.plotno =Convert.ToInt32(Console.ReadLine());
-                          outputFile.WriteLine("Plotno : " + Customer.plotno);
-
-                          Console.WriteLine("Enter Amount Of Water Used ");
-                          Customer.AmountOfWaterUsed = Convert.ToDouble(Console.ReadLine());
-                          outputFile.WriteLine("Amount of waterused :" + Customer.AmountOfWaterUsed);
-
-                        Console.WriteLine("Enter Usertype");
-                          Customer.usertype = Console.ReadLine();
-                          if (Customer.usertype == "Domestic")
-                          {
-                             DomesticCalculation domesticCalculation = new DomesticCalculation();
-                            Customer.TotalWaterCost = domesticCalculation.TotalWaterCost(Customer.AmountOfWaterUsed);
-                           
-                          }
-
-                          else if (Customer.usertype == "Commercial")
-                          {
-                            COMMERCIALCALCULATION commerceCalculation = new COMMERCIALCALCULATION();
-                            Customer.TotalWaterCost = commerceCalculation.TotalWaterCost(Customer.AmountOfWaterUsed);
-
-                          }
-                           else
-                           {
-                            Console.WriteLine("Null,Re-enter UserType ");
-                           }
-                          outputFile.WriteLine("Usertype : " + Customer.usertype);
-
-                          outputFile.WriteLine();
-                          Console.WriteLine("VAT:14 %");
-                          Console.WriteLine("Total Water Cost:" + Customer.TotalWaterCost);
-
-                          outputFile.Close();
-                          recordFile.Close();
-
-                        Console.WriteLine("**************************************************************************************");
+                        getUserCredentials();
+                        
+                        StreamWriter outputFile;
+                        
+                        outputFile = new StreamWriter("CustomerInfo.doc");//stores object data in a file
                          
 
+                        CustomerInput Customer = new CustomerInput("Dee", "Nomsa", "Mosopa", 5431, "Domestic", 44.0);//arguments 
+                        Console.WriteLine("******************************************************************************");
+                        Console.WriteLine("Enter Firstname");
+                        Customer.firstname = Console.ReadLine();
+                        Console.WriteLine("Enter Surname");
+                        Customer.surname = Console.ReadLine();
+                        outputFile.WriteLine("Fullname :" + Customer.firstname + Customer.surname);
 
+                        Console.WriteLine("Enter location");
+                        Customer.location = Console.ReadLine();
+                        outputFile.WriteLine("Location :" + Customer.location);
 
+                        Console.WriteLine("Enter Plotno");
+                        Customer.plotno = Convert.ToInt32(Console.ReadLine());
+                        outputFile.WriteLine("Plotno : " + Customer.plotno);
 
+                        Console.WriteLine("Enter Amount Of Water Used ");
+                        Customer.AmountOfWaterUsed = Convert.ToDouble(Console.ReadLine());
+                        outputFile.WriteLine("Amount of waterused :" + Customer.AmountOfWaterUsed);
 
+                        Console.WriteLine("Enter Usertype");
+                        Customer.usertype = Console.ReadLine();
+                        if (Customer.usertype == "Domestic")
+                        {
+                            DomesticCalculation domesticCalculation = new DomesticCalculation();
+                            Customer.TotalWaterCost = domesticCalculation.TotalWaterCost(Customer.AmountOfWaterUsed);
 
                         }
 
+                        else if (Customer.usertype == "Commercial")
+                        {
+                            COMMERCIALCALCULATION commerceCalculation = new COMMERCIALCALCULATION();
+                            Customer.TotalWaterCost = commerceCalculation.TotalWaterCost(Customer.AmountOfWaterUsed);
 
+                        }
+                        else
+                        {
+                            Console.WriteLine("Null,Re-enter UserType ");
+                        }
+                        outputFile.WriteLine("Usertype : " + Customer.usertype);
+                        Console.WriteLine("VAT:14 %");
+                        Console.WriteLine("Total Water Cost:" + Customer.TotalWaterCost);
 
+                        outputFile.Close();//closes customer info file
+                        File.AppendAllText("Report.doc","Fullnames:" + Customer.firstname + Customer.surname + Environment.NewLine);
+                        File.AppendAllText("Report.doc","Location : " + Customer.location + " "+ Customer.plotno + Environment.NewLine);
+                        File.AppendAllText("Report.doc","Usertype : "+ Customer.usertype + Environment.NewLine);
+                        File.AppendAllText("Report.doc","Amount Of Water Used : " + Customer.AmountOfWaterUsed + Environment.NewLine);
+                        File.AppendAllText("Report.doc", "Total Water Cost : " + Customer.TotalWaterCost + Environment.NewLine);//creates a report of output
 
-
-
-
-
-
-
-
+                        Console.WriteLine("**************************************************************************************");
+                        Console.Clear();
+                        Console.WriteLine("**************************************************************************************");
+                        Console.WriteLine("FullNames : " + Customer.firstname + " " + Customer.surname + Environment.NewLine);
+                        Console.WriteLine("Location : " + Customer.location + " "  + Customer.plotno + Environment.NewLine);
+                        Console.WriteLine("Potable Water Used : " + "P"+ Customer.AmountOfWaterUsed + Environment.NewLine);
+                        Console.WriteLine("VAT : 14%");
+                        Console.WriteLine("Total Amount : " + "P"+Customer.TotalWaterCost + Environment.NewLine);
+                        Console.WriteLine("*****************************************************************************************");
 
                     }
-
-
-                    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                }
             }
-
-
-
-
-
-
-
         }
-
-
-                
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
 
 
 
